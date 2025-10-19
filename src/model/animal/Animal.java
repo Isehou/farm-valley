@@ -29,17 +29,15 @@ public abstract class Animal {
         return hungerLevel;
     }
 
+    protected void changeHunger(int hunger) {
+        hunger = Math.max(0, hunger + hungerLevel);
+    }
 
     public AnimalType getAnimalType() {
         return animalType;
     }
 
-    public void feed(FeedType feedType) {
-        switch (feedType) {
-            case HAY -> hungerLevel = Math.max(0, hungerLevel - 40);
-            case GRAIN -> hungerLevel = Math.max(0, hungerLevel - 30);
-        }
-    }
+    public abstract boolean feed(FeedType feedType);
 
     public abstract ProductBundle produce();
 }
