@@ -5,28 +5,22 @@ import model.ProductBundle;
 import model.enums.FeedType;
 import model.enums.ProductType;
 
-public class Chicken extends Animal{
+public class Chicken extends Animal {
 
-    public Chicken(String name, int age, int hungerLevel, AnimalType animalType) {
-        super(name, age, hungerLevel, animalType);
-    }
-
-    @Override
-    public boolean feed(FeedType feedType) {
-        if(feedType == FeedType.GRAIN) {
-            changeHunger(-30);
-        } else {
-            changeHunger(-10);
-        }
-        return true;
+    public Chicken(String name, int age) {
+        super(name, age, FeedType.GRAIN, AnimalType.CHICKEN);
     }
 
     @Override
     public ProductBundle produce() {
-        ProductBundle bundle = new ProductBundle();
-        if(getHungerLevel() <= 40) {
-            bundle.addProduct(ProductType.EGG, 10 + getAge() / 2);
+        if (!isHungry()) {
+            this.hungerLevel += 2; // Производство делает голоднее
+            int amount = 5;
+            System.out.println("Курица " + name + " снесла " + amount + " яиц.");
+            return new ProductBundle(ProductType.EGG, amount);
+        } else {
+            System.out.println("Курица " + name + " слишком голодна, чтобы нести яйца.");
+            return null;
         }
-        return bundle;
     }
 }

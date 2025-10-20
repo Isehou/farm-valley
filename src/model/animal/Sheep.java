@@ -7,26 +7,20 @@ import model.enums.ProductType;
 
 public class Sheep extends Animal {
 
-    public Sheep(String name, int age, int hungerLevel, AnimalType animalType) {
-        super(name, age, hungerLevel, animalType);
-    }
-
-    @Override
-    public boolean feed(FeedType feedType) {
-        if(feedType == FeedType.GRAIN) {
-            changeHunger(-30);
-        } else {
-            changeHunger(-10);
-        }
-        return true;
+    public Sheep(String name, int age) {
+        super(name, age, FeedType.HAY, AnimalType.SHEEP);
     }
 
     @Override
     public ProductBundle produce() {
-        ProductBundle bundle = new ProductBundle();
-        if(getHungerLevel() <= 80) {
-            bundle.addProduct(ProductType.WOOL, 3 + getAge() / 2);
+        if (!isHungry()) {
+            this.hungerLevel += 4;
+            int amount = 1;
+            System.out.println("Овца " + name + " дала " + amount + " ед. шерсти.");
+            return new ProductBundle(ProductType.WOOL, amount);
+        } else {
+            System.out.println("Овца " + name + " слишком голодна, чтобы давать шерсть.");
+            return null;
         }
-        return bundle;
     }
 }
